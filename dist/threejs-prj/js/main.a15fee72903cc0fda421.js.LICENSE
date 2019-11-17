@@ -1,0 +1,31 @@
+/*!*****************!*\
+  !*** ./app.tsx ***!
+  \*****************/
+
+/*! no static exports found */
+
+/*! all exports used */
+
+/*! ModuleConcatenation bailout: Module is not an ECMAScript module */
+
+/*! three */
+
+/*!********************!*\
+  !*** ./index.html ***!
+  \********************/
+
+/*!*******************!*\
+  !*** ./index.tsx ***!
+  \*******************/
+
+/*! core-js/stable */
+
+/*! ./app */
+
+/*!**************************************!*\
+  !*** multi ./index.tsx ./index.html ***!
+  \**************************************/
+
+/*! /Users/xingjiabin/Desktop/DreamLovely/src/threejs-prj/index.tsx */
+
+/*! /Users/xingjiabin/Desktop/DreamLovely/src/threejs-prj/index.html */
