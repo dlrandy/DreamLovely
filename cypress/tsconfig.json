@@ -1,0 +1,7 @@
+{
+  "extends": "../src/blog-pc/tsconfig.json",
+  "include": [
+    "../node_modules/cypress",
+    "../src/blog-pc/**/*.ts"
+  ]
+}

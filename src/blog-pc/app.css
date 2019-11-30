@@ -359,16 +359,3 @@ template {
 /* body{
   background: center  url("~@Assets/jpg/taylor_swift.jpg") ;
 } */
-
-
-
-.poll-admin-page{
-  width: 98%;
-  min-width: 65em;
-  margin: 0 auto;
-}
-
-.poll-admin-page .ant-layout {
-  background-color: transparent;
-  min-height: 800px;
-}
