@@ -360,15 +360,14 @@ template {
   background: center  url("~@Assets/jpg/taylor_swift.jpg") ;
 } */
 
-
-
-.poll-admin-page{
-  width: 98%;
-  min-width: 65em;
-  margin: 0 auto;
+canvas{
+  display: block;
+  width: 100%;
+  height: 100%;
 }
-
-.poll-admin-page .ant-layout {
-  background-color: transparent;
-  min-height: 800px;
-}
+/* .app{
+  float: left;
+  padding: 10px;
+  width: 200px;
+  height: 150px;
+} */
