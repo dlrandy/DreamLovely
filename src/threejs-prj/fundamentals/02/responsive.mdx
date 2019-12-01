@@ -1,0 +1,38 @@
+浏览器使用css像素来设置尺寸的，不在乎显示器的分辨率多高
+
+canvas默认是inline的元素，想要它响应式就需要设置为block的元素，宽高百分比这种。
+
+canvas有两个size，一个是显示在页面上的canvas的size；另一个canvas自身的pixel数量。
+就像是120x120的图片，使用css显示成240x240的图片。
+
+canvas的internal size（分辨率）通常叫做drawingbuffer size。
+
+threejs的响应式，通常会有两个问题：
+1，图形被拉伸
+  > 将画布的宽高比映射到相机的aspect
+2，图形模糊锯齿化
+  > 将画布的分辨率设置为显示的画布显示的尺寸
+
+threejs处理高清屏的方法：
+1，不做任何处理
+2, 使用renderer.setPixelRatio通知resolution multiplier
+  > 告诉浏览器css像素到设备像素的乘率并传给threejs，后续的setSize调用会使用这个乘数
+3，在resize的时候自行处理, 将画布的css像素乘以设备像素比
+
+在使用threejs的时候，很多情况需要失踪canvas的drawingbuffer 的
+实际尺寸的。
+对于setPixelRatio，实际的尺寸会不同于需要的size，所以
+最好是手动设置。
+
+
+
+
+
+
+
+
+
+
+
+
+
