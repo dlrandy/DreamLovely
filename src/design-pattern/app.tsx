@@ -1,6 +1,13 @@
+import strategy from '@Behavioral/strategy/index';
 import adaptor from '@Structural/adaptor/index';
+export default() => {
+  // console.group("adaptor");
+  // adaptor();
+  // console.groupEnd();
 
-export default () => {
-adaptor()
+  console.group("strategy");
+  strategy();
+
+  console.groupEnd();
 
 }
