@@ -5,7 +5,7 @@ import {
   Switch,
 } from 'react-router-dom';
 
-import Home from '@Containers/Home/index.antd';
+import Home from '@Containers/Home/index';
 
 export default () => {
   return (
