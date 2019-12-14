@@ -5,10 +5,8 @@ export default() => {
   // console.group("adaptor");
   // adaptor();
   // console.groupEnd();
-
   // console.group("strategy");
   // strategy();
-
   // console.groupEnd();
 
   console.group("state");
