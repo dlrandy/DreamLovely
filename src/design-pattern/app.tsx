@@ -1,3 +1,4 @@
+import state from '@Behavioral/state/index';
 import strategy from '@Behavioral/strategy/index';
 import adaptor from '@Structural/adaptor/index';
 export default() => {
@@ -5,9 +6,13 @@ export default() => {
   // adaptor();
   // console.groupEnd();
 
-  console.group("strategy");
-  strategy();
+  // console.group("strategy");
+  // strategy();
+
+  // console.groupEnd();
+
+  console.group("state");
+  state();
 
   console.groupEnd();
-
 }
