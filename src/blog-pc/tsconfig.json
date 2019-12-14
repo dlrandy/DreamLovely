@@ -49,6 +49,12 @@
       "@Store/*": [
         "./store/*"
       ],
+      "@Models/*": [
+        "./models/*"
+      ],
+      "@Services/*": [
+        "./services/*"
+      ],
       "@@Types/*": [
         "./@types/*"
       ],
