@@ -1,0 +1,5 @@
+netstat -vanp tcp | grep 3000
+sudo lsof -i tcp:3000
+kill -9 <PID>
+=====
+kill -kill `lsof -t -i tcp:3000`
