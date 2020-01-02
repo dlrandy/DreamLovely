@@ -1,0 +1,43 @@
+# 设计模式之桥接模式
+
+**桥接模式属于结构设计模式**
+
+结构化设计模式是使用新对象(包装对象)来创建新功能
+
+![markdown](https://images.unsplash.com/photo-1573554394544-930a4cf6fc66?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1352&q=80 "
+Raquel García")
+
+### 什么是桥接？
+桥接会把一个大的class或者一系列紧密相关的class分为两种独立的层级---抽象和实现--这样彼此就可以由开发者分开实现。这里的抽象(interface)和实现(implementation)，抽象是实体的高级控制层，它是将work代理到implementation层
+
+###问题描述
+比如当前有一个Shape类，和两个子类Circle，Square。现在想要扩展这个form类来整合颜色（Blue，Red），所以要需要创建Red Shape类，Blue Shape类。但是因为有两个Form子类，就需要创建四个类组合。这会产生一个扩展问题，就是任何一方面的扩展都会让子类指数增长。
+> 上面问题的主要原因在于想在不同维度继承shape
+###桥接模式的作用？
+桥接模式可以解决上面的问题，主要是从继承切换到组合。这就需要提取维度中的一个到独立的类层级，以至于最初的类能够引用新层级的对象，而不是某个类的所有状态和行为
+
+
+## 什么时候使用桥接模式模式？
+1. 想要分解和组织一个有一些功能是不通话变种的class的时候
+	class越大越难理解它的工作方式，做出改变的时间越长，也会
+
+##具体思路
+1. 分析用户需要什么样的interface ，以致于稍后创建adaptor class
+2. 创建适配器class
+	1. 设置属性存储不兼容的object (adaptee)
+	2. 实现用户需要的接口
+3. 使用adaptor class作为用户接口
+
+
+##什么时候不需要使用适配模式？
+1. 不需要复用已经存在的class或者对象；
+1. 存在的class/对象可以修改
+
+##优点
+1.  单一职责，分离了interface和业务逻辑
+2.  开闭原则，不会破坏已经存在的code
+
+##缺点
+由于引入了额外的class/interface，增加了代码的整体复杂度
+
+![eberhard grossgasteiger](https://images.unsplash.com/photo-1574270981993-f1df213562b3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80 "eberhard grossgasteiger")End
