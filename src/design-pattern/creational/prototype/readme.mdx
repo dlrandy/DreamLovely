@@ -1,0 +1,65 @@
+# 设计模式之原型模式
+
+**原型模式属于创建型模式**
+
+![markdown](https://images.unsplash.com/photo-1569261995036-70d0dd50be24?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1789&q=80 "
+Kevin Mueller")
+
+>  在不依赖class的情况下，copy已经存在的对象。
+
+###如何拷贝一个对象？
+首先需要创建一个同类的对象，遍历原始对象的fields，然后copy它们的值到新对象上。
+> 这种做法有什么问题？
+	在于如果该类如果有私有的属性怎么办？如果不知道具体的实体类怎么办？
+
+###生活中例子对比
+	飞机很好很强大，想复制一个飞机，光从外表是不可能成功的。
+
+##解决方式
+原型模式将克隆过程代理到被复制对象自身。它声明支持复制的所有对象的接口。
+这个接口在不耦合对象class的情况下，复制该对象。通常该接口只包含clone方法。
+
+支持clone的对象叫做prototype。当对象有大量的fields和可能的配置的时候，clone
+可以作为子类的替代方案。
+
+
+##组成结构
+1. prototype 接口申明clone方法
+2. concrete prototype 实现clone方法，除了拷贝原始数据，还可以处理一些和复制相关的其他情况
+3. client 可以拷贝任何遵循原型接口的对象。
+
+##什么时候需要使用原型模式？
+1. 在无法依赖要copy对象的实体类的时候
+2. 在想要减少只在初始化时不同的对象的子类的数量的时候
+
+## 实现步骤
+1. 创建一个原型接口并声明一个clone方法，或者直接子所有的class里添加clone方法
+2. 原型类必须定义一个备选的构造器来接收同类的对象作为参数
+3. clone方法只需要在运行的时候，执行一个接收当前的对象的构造函数即可
+4. 可选的创建集中的prototype仓库，存储一些经常被使用的原型
+
+
+##优点
+1. 不需要具体实体类的情况下，就可以复制对象
+2. 不需要重复的初始化代码
+3. 更方便的产生复杂对象
+4.在处理复杂对象的预置配置的时候，可以替换继承
+
+
+
+##缺点
+1. 复制有循环引用的对象，比较麻烦
+
+
+![eberhard grossgasteiger](https://images.unsplash.com/photo-1569196769169-148d853ee706?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=564&q=80 "eberhard grossgasteiger")End
+
+
+
+
+
+
+
+
+
+
+
