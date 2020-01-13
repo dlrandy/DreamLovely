@@ -8,30 +8,51 @@
 Raquel García")
 
 ### 什么是桥接？
-桥接会把一个大的class或者一系列紧密相关的class分为两种独立的层级---抽象和实现--这样彼此就可以由开发者分开实现。这里的抽象(interface)和实现(implementation)，抽象是实体的高级控制层，它是将work代理到implementation层
+桥接会把一个大的class或者一系列紧密相关的class分为两种
+独立的层级---抽象和实现--这样彼此就可以由开发者分开实现。这里的抽象(interface)和实现(implementation)，抽象是实体的高级控制层，它是将work代理到implementation层
 
 ###问题描述
 比如当前有一个Shape类，和两个子类Circle，Square。现在想要扩展这个form类来整合颜色（Blue，Red），所以要需要创建Red Shape类，Blue Shape类。但是因为有两个Form子类，就需要创建四个类组合。这会产生一个扩展问题，就是任何一方面的扩展都会让子类指数增长。
 > 上面问题的主要原因在于想在不同维度继承shape
 ###桥接模式的作用？
-桥接模式可以解决上面的问题，主要是从继承切换到组合。这就需要提取维度中的一个到独立的类层级，以至于最初的类能够引用新层级的对象，而不是某个类的所有状态和行为
+桥接模式可以解决上面的问题，主要是从继承切换到组合
+。这就需要提取维度中的一个到独立的类层级，
+以至于最初的类能够引用新层级的对象，
+而不是某个类的所有状态和行为
+
+###桥接模式结构
+1. Abstraction  提供高级的控制逻辑，它依赖底层的Implementation
+做一些实际的工作
+2. implementation声明接口，abstraction只能通过接口
+里的方法和implementation通信
+3.Concrete Implementation包含平台特定的代码
+4.Refined Abstraction 提供控制逻辑的变种
+5.Client只对抽象感兴趣，它的工作只是将Abstraction和
+Implementation联系起来
+
 
 
 ## 什么时候使用桥接模式模式？
-1. 想要分解和组织一个有一些功能是不通话变种的class的时候
-	class越大越难理解它的工作方式，做出改变的时间越长，也会
-
-##具体思路
-1. 分析用户需要什么样的interface ，以致于稍后创建adaptor class
-2. 创建适配器class
-	1. 设置属性存储不兼容的object (adaptee)
-	2. 实现用户需要的接口
-3. 使用adaptor class作为用户接口
+1. 在分解和组织一个庞大的一个class的时候，这个class
+的一些方法都有不同的变种
+2.在需要从多个维度继承一个class的时候
+ > 桥接将提取每一个独立的维度到一个class层级里，
+ 最初的class将实际的工作代理到那些层级，
+ 而不是自己做所有的事情
+3.想要在运行时切换实现的时候
 
 
-##什么时候不需要使用适配模式？
-1. 不需要复用已经存在的class或者对象；
-1. 存在的class/对象可以修改
+###如何实现桥接模式
+1.识别class里的多个维度，这些概念可能是：Abstraction/platform
+domain/infrastructure,front-end/backend，interface/implementation
+2.看client需要那些操作，在基本的Abstraction 类定义
+3.确定所有平台可用的操作，声明在Implementation接口里
+4.为所有支持的平台，创建实体Implementation类，
+确保它们遵循Implementation接口
+5.在Abstraction类，添加Implementation类型额引用，
+并代理工作到Implementation对象上
+
+
 
 ##优点
 1.  单一职责，分离了interface和业务逻辑

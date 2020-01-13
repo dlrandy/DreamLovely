@@ -1,0 +1,76 @@
+# 设计模式之composite模式
+
+**composite 模式属于结构设计模式**
+
+结构化设计模式是使用新对象(包装对象)来创建新功能
+
+![markdown](https://images.unsplash.com/photo-1573554394544-930a4cf6fc66?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1352&q=80 "
+Raquel García")
+
+composite只在App的核心model被作为tree描述的时候才有意义
+
+### 生活中的对比
+有两种对象：products和boxes。一个盒子可以包含几个products
+同样也可以是几个boxes。盒子又可以包含products和boxes。
+还比如军队的结构： 旅-团-营-排-班-人
+
+
+###composite的原理
+提倡使用同一个接口处理简单对象和复杂对象。简单的对象直接调用接口，
+复杂的对象递归调用接口。
+这个方法的好处：
+1.不需要关注组成树的对象的实体类；
+2.不需要知道对象是复杂的还是简单的对象
+3.可以以同样的接口对待所有对象
+
+
+###composite模式结构
+1.Component 接口描述树里面所有简单或者复杂元素的通用操作
+2.Leaf 树里面的简单元素，米有子元素
+3.Container(Composite)是有子元素(leaf,Composite)的元素，
+container不需要知道孩子的实体类，只通过通用的接口处理子元素，将所有的
+请求代理到子元素，处理中间结果，给client返回最终结果
+4.client 通过component接口使用元素(简单或者复杂)
+
+
+## 什么时候使用composite模式？
+1. 实现tree样结构的时候
+  composite提供两个共享通用接口的基本元素：leaf和container(由叶子和
+  container组成)。以递归的内嵌结构形成一个tree
+2. client code要统一的对待简单和复杂的元素
+  模式定义的所有元素共享通用的接口，使用这个接口，client不必担心对象的实体类
+
+
+###如何实现composite模式
+1.确保app的核心模型可作为tree来描述。试着去将模型分解为简单元素和容器元素。
+  容器元素一定要能包含简单元素和container元素
+2.声明component接口，并定义一列对元素有意义的方法，
+3.创建leaf类描述简单元素，一个app可以由多个不同的leaf类
+4.创建container类描述复杂元素，提供域引用子元素，类的方法应该代理工作
+到子元素
+5.定义container的删除和增加孩子元素的方法
+
+
+##优点
+1.  更方便的处理tree结构
+2.  开闭原则，引入新的元素类型不会破坏已经存在的code
+
+##缺点
+对于功能很大不同的类，很难提供通用的接口。在某些细节，可能要
+过度泛化component的接口，不容易被理解
+
+###和其他模式的关系
+1.在构建复杂的Composite 树的时候可以使用builder模式
+2.责任链 通常和composite一起使用，特别是在leaf组件接收一个请求，
+通过父组件的链传递到root元素
+3.Iterator可以遍历Composite树
+4.使用visitor可以执行整个Composite树的操作
+5.Composite树的共享叶子节点可以作为flyWeight来节省ram
+6.Composite和Decorator有相似的结构，都依赖递归组合形成不限数量的对象
+但是Decorator只有一个孩子组件。Decorator给被包装的对象赋予了额外的
+责任，composite则是对所有的孩子的结果求和。Decorator也可以扩展
+Composite树里的特殊对象的行为
+7.重度使用了Composite和Decorator的设计，通常受益于Prototype模式，
+因为很方便的clone复杂的对象
+
+![eberhard grossgasteiger](https://images.unsplash.com/photo-1574270981993-f1df213562b3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80 "eberhard grossgasteiger")End

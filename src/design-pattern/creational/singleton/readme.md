@@ -18,16 +18,25 @@ Kevin Mueller")
 
 
 ##什么时候需要使用单例模式？
-1. 要确保用户只能使用一个类的实例的时候
-2. 需要严格限制全局变量的时候
+1. 要确保用户只能使用一个类的实例的时候，
+2. 需要严格限制全局变量的时候，
+  不像全局变量，单例可以保证只有一个类实例，除了类本身，别人无法替换缓存的实例
 
 ##优点
-
-
+1. 确保一个class只有一个实例
+2. 获得单例的全局访问入口
+3. 单例对象只在第一次请求的时候初始化
 
 ##缺点
-1.
+1.违背了单一责任原则
+2.在多线程的环境需要特殊对待
 
+###和其他模式的关系
+1. Facade类可变转换为单例类，因为一个facade对象可以满足大多数的情况
+2. Flyweight在和单例很像，特别是在将对象们的所有共享状态加入到
+  一个flyweight对象的时候。
+  1. flyweight class可以由不同固有state的多个实例
+  2. 单例的对象可以改变；flyweight对象不可以改变
 
 ![eberhard grossgasteiger](https://images.unsplash.com/photo-1569196769169-148d853ee706?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=564&q=80 "eberhard grossgasteiger")End
 

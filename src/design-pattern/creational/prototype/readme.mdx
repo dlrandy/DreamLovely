@@ -22,6 +22,8 @@ Kevin Mueller")
 支持clone的对象叫做prototype。当对象有大量的fields和可能的配置的时候，clone
 可以作为子类的替代方案。
 
+**大多数的编程语言，允许同类的对象之间访问私有域**
+
 
 ##组成结构
 1. prototype 接口申明clone方法
@@ -29,8 +31,10 @@ Kevin Mueller")
 3. client 可以拷贝任何遵循原型接口的对象。
 
 ##什么时候需要使用原型模式？
-1. 在无法依赖要copy对象的实体类的时候
-2. 在想要减少只在初始化时不同的对象的子类的数量的时候
+1. 在不能找到要copy对象的实体类的时候
+2. 在想要减少只在初始化时不同的子类数量的时候
+  就是预置一些对象作为原型，用户只需要找到适当的原型并克隆它，而不是实例化
+  一个匹配配置的子类。
 
 ## 实现步骤
 1. 创建一个原型接口并声明一个clone方法，或者直接子所有的class里添加clone方法
@@ -45,11 +49,16 @@ Kevin Mueller")
 3. 更方便的产生复杂对象
 4.在处理复杂对象的预置配置的时候，可以替换继承
 
-
-
 ##缺点
 1. 复制有循环引用的对象，比较麻烦
 
+
+###和其他模式的关系
+1.当需要保存Command的拷贝到历史记录里的时候特别有用
+  当重度使用了Composite和Decorator的时候，Prototype使得复杂对象的创建更容易
+  而不是重新构成每个对象
+2.Prototype不是基于继承的，但是它需要克隆对象的复杂初始化。工厂方法基于继承，
+  但是不需要初始化步骤
 
 ![eberhard grossgasteiger](https://images.unsplash.com/photo-1569196769169-148d853ee706?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=564&q=80 "eberhard grossgasteiger")End
 
