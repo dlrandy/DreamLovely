@@ -1,0 +1,87 @@
+# 设计模式之decorator模式
+
+**decoratir 模式属于结构设计模式**
+
+结构化设计模式是使用新对象(包装对象)来创建新功能
+
+![markdown](https://images.unsplash.com/photo-1573554394544-930a4cf6fc66?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1352&q=80 "
+Raquel García")
+
+decorator是给对象附加新的行为，前提是这个对象被放在了有该行为的包装对象里
+
+
+### 生活中的对比
+1.就像是穿衣服，一件内衣，再加上一件外套，再加上雨衣。
+2.邮件通知-简单邮件通知，SMS通知,facebook通知，slack通知，短信等等。
+如果单用继承，上面的各种组合就会产生大量的子类。
+
+###继承的几个缺点
+1. 继承是静态的，不能在运行时修改已存在对象的行为，只能使用另一个子类对象替换
+2. 在大多数语言中，子类只能有一个父类，意味着不能同时继承多个类的行为
+> 使用组合，可以很好的改变上面的问题。组合是一个对象里引用了另一个对象，
+然后将一些工作代理给它；继承则是对象自身去做。使用组合，可以简单的用另外一个
+对象来替换相关的对象，在运行时改变container的行为。一个对象可以使用不同类的
+行为，只需要引用多个对象，并代理给它们一些事情。
+
+###decorator的原理
+wrapper是decorator的别名，而且可以清楚的表明模式的主要思想。wrapper
+是一个对象，可以关联到target对象。wrapper含有target一样的方法，
+将它所有接收到的请求代理到target。但是wrapper会在请求传给target之前或者
+之后修改一些结果，比如传给target的数据
+
+
+###decorator模式结构
+1.component 声明wrapper和wrappee的通用接口
+2.concrete component是wrappee类，它定义的一些行为，可以被decorator改变
+3.Base Decorator有一个field引用被包装的对象，该field的类型为component
+所以它可以装饰concrete component或者decorator，base decorator代理
+所有的操作到wrappee
+4.concrete Decorator定义额外的行为可以动态添加到component的。concrete
+Decorator覆盖base Decorator的方法，在调用父方法之前或者之后执行自己的行为
+5.client可以用多个Decorator包装component，只要它通过component接口
+处理对象
+
+
+## 什么时候使用Decorator模式？
+1.在运行时，给对象添加一些额外的行为，但是不会影响已经使用了这些对象的code
+  将业务逻辑分层，为每一层创建Decorator，在运行时使用不同的逻辑组合对象。
+2.在使用继承不能够扩展对象的行为的时候
+  很多编程语言使用final禁止class被扩展，那么唯一的扩展方法就是使用Decorator
+
+
+###如何实现decorator模式
+1.确保业务domain能被当作基本的组件，可以有多个可选的层
+2.弄清楚什么什么方法是组件和可选层通用的。创建component接口声明这些方法
+3.创建一个实体的component，定义基本的行为
+4.创建基本的Decorator class。留有一个field引用被包装的对象(component)，
+连接concrete component和Decorator。base Decorator必须代理所有的work
+到被包装的对象
+5.确保所有的class都实现了component interface
+6.创建concrete Decorator，继承于base Decorator。在调用父方法的前后
+执行自己的方法
+7.client负责创建Decorator，组合Decorator满足业务需要
+
+##优点
+1. 不需要创建新的子类，就可以继承对象的行为
+2. 在运行时给对象添加或者移除职责
+3. 将对象包装到多个Decorator里，组合行为
+3.单一职责原则，将一个大类分成几个小的class
+
+##缺点
+1.很难移除wrapper stack里的wrapper
+2.Decorator依赖Decorator stack的顺序
+3.最初的配置code可能很丑
+
+###和其他模式的关系
+1.adaptor改变已有对象的接口；Decorator不改变接口的情况下，强化对象。Decorator
+支持递归组合，adaptor不能
+2.adaptor给wrappee提供不同的接口；Proxy提供同样的接口；Decorator提供强化的接口
+3.责任链和Decorator有相似的结构，都依赖递归组合；不同自安于，Cor独立的执行每一个
+动作，可以阻止请求的进一步执行；Decorator执行动作要遵循统一的接口，且请求不能
+被中断
+4.Decorator改变了对象的皮肤；Strategy改变的是对象的内在
+5.Decorator和Proxy结构相似，也都依赖composition原则，也都是一个对象
+将work代理到其他对象。Proxy自己管理者service对象的声明周期；Decorator的
+组合则是由client控制。
+
+![eberhard grossgasteiger](https://images.unsplash.com/photo-1574270981993-f1df213562b3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80 "eberhard grossgasteiger")End
