@@ -1,0 +1,83 @@
+# 设计模式之facade模式
+
+**facade 模式属于结构设计模式**
+
+结构化设计模式是使用新对象(包装对象)来创建新功能
+
+![markdown](https://images.unsplash.com/photo-1573554394544-930a4cf6fc66?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1352&q=80 "
+Raquel García")
+
+facade是给一个lib，框架或者其他复杂的类集提供一个简化interface的class.
+
+> facade类给含有多变部分的subsystem提供简单的接口，
+相比直接使用subsystem，facade可能提供的功能有限，但是确实client真正需要的。
+app和一个带有很多特性的复杂的lib整合，但是只需要lib的几个功能的时候，facade
+是很方便的。
+
+### 生活中的对比
+1.一个上传短视频的app，他可能使用了一个专业的视频转换库。但是app可能
+需要的只是encode(filename, format).创建一个class把它和视频转换库
+关联，这个class就是facade
+2.打电话给商城去下一下电话订单，接线员就是你的facade，接线员了解商城的所有
+服务和部门。用户通过接线员简单的语音接口，就可以使用订单系统，付款网关和
+各种快递服务。
+
+
+###facade的原理
+不需要code直接和一堆框架的class操作，facade会封装框架的一些功能给code使用。
+这有助于未来路的框架升级和替换
+
+
+###facade模式结构
+1.facade 提供subsystem特定部分的访问，它可以转发client的请求到subsystem
+以及如何处理subsystem的所有动态部分
+2.additional facade避免无关的特性污染facade。它可用于client和其他facade
+3.complex subsystem，包含很多的不同对象，需要client深入了解实现细节的
+4.client 使用decade而不是直接调用subsystem对象
+
+## 什么时候使用Facade模式？
+1.需要一个有限的直接易用的某复杂subsystem接口
+
+2.将子系统分层
+  创建facade去定义每一个的subsystem的层，通过facade之间的通信，
+  减少了subsystem之间的耦合
+
+###如何实现facade模式
+1.检查是否可以提供比subsystem提供的接口简单的接口，如果这个
+接口可以使得client code独立于子系统的多个class，那么
+这个接口就是可行的
+2.在facade class里声明和实现接口，facade将请求重定向到
+子系统的适当对象。facade应该负责子系统的初始化，如果
+client code不处理子系统的生命周期的话，那么facade要负责处理
+3.client应该使用facade和子系统交互，实现了两者之间的
+隔离，那么彼此独立的升降级不会产生影响
+4.如果facade太大，可以考虑提取部分行为到另一个facade
+
+
+##优点
+1. code和子系统隔离
+
+##缺点
+1.facade会和很多类耦合
+
+
+###和其他模式的关系
+1.facade为已有对象提供新的接口，adaptor是为了已有接口可用。adapter
+只是包装一个对象，facade则是处理整个子系统的对象
+2.在只想隐藏subsystem里对象创建的方式的时候，abstract factory是有效的替代方案
+3.Flyweight展示的是如何创建很多的小对象，facade则是如何创建一个对象来
+描述整个的subsystem
+4.facade和mediator有相同的任务：在众多的精密耦合的class里组织协调
+  facade给subsystem定义简化的接口，不会引入新功能。subsystem不会意识到
+  facade，subsystem里的对象彼此是直接通信的；
+  Mediator集中化system里组件之间的通信的。组件之间只知道mediator，而不能
+  直接通信。
+5.facade类经常会是单例的，因为在多数情况下一个facade对象就够了
+6.facade和Proxy相似，都缓存复杂的实体对象，自身初始化这个实体。但是Proxy
+和被代理的对象有同样的接口，彼此可以互换的。
+
+
+
+
+
+![eberhard grossgasteiger](https://images.unsplash.com/photo-1574270981993-f1df213562b3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80 "eberhard grossgasteiger")End
