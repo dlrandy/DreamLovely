@@ -1,0 +1,76 @@
+# 设计模式之flyweight模式
+
+**flyweight 模式属于结构设计模式**
+又叫缓存模式
+
+结构化设计模式是使用新对象(包装对象)来创建新功能
+
+![markdown](https://images.unsplash.com/photo-1573554394544-930a4cf6fc66?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1352&q=80 "
+Raquel García")
+
+flyweight是把更多的对象放入到可用的RAM里，在多个对象之间共享
+通用的state部分单独存放，而不是独立的存储每一个对象里的所有数据
+
+> flyweight就是只存储内部状态的对象，也是immutable的
+
+###Flyweight 和immutability
+同一个flyweight可以用于不同的context里，必须确保他的状态不能被修改
+flyweight应该只通过构造器参数初始化state一次，不应该暴露setter和public
+fields给其他对象
+
+###Flyweight factory
+为了更方便的访问不同Flyweight，可以创建工厂方法管理Flyweight对象池。
+这个工厂可以放在flyweight容器里，也可以创建工厂类或者让工厂方法为静态的
+放在实际的flyweight类里。
+
+###flyweight模式结构
+1.flyweight仅是一个优化。使用之前最好确认程序里是否有RAM的
+使用问题
+2.Flyweightclass包含着多个对象共享的state。同一个flyweight
+对象可以用在很多不同的context。Flyweight存储的是固有状态
+，是immutable的。Flyweight的方法处理的state是外部状态
+3.Context类包含着外部的state，这个state是所有的对象含有的
+都是不同的。当context再带有flyweight的时候，他才包含了对象的
+所有状态。
+4.通常flyweight类里可以保存原对象的行为，但是行为处理的必须是
+外部的state。他的这些行为也可以放到context类里，这就将flyweight
+仅仅作为数据对象
+5.Client 计算和存储flyweight的外部对象。从CLient的角度来说
+flyweight只是一个模板对象，可以在运行时传入contextual数据
+给flyweight的方法
+6.Flyweight Factory管理者已有flyweight的pool。
+
+
+## 什么时候使用Flyweight模式？
+1.只在程序必须提供大量的对象，且可用内存不足的情况
+
+###如何实现Flyweight模式
+1. 将要变成Flyweight的类的fields分为两个部分：
+  1. intrinsic State: 包含所有对象里不会改变的数据
+  2. extrinsic State: 包含所有对象里的可改变数据
+2. 留下intrinsic state在类里，确保immutable，且只在
+构造器里初始化
+3. 找到使用extrinsic state的方法，将这些filed变成方法的参数
+4. 可选的创建flyweight 工厂
+5.client必须存储和计算extrinsic state的值
+
+##优点
+1. 节省了ram空间
+
+##缺点
+1.code变得复杂
+2.因contextdata需要经常recalculate，就会消耗很多的CPU周期
+
+###和其他模式的关系
+1.可以将Composite tree的共享叶子节点作为Flyweight
+2.Flyweight用于生产众多的小对象，facade则是通过一个对象描述整个
+系统
+3.有点像是模仿单例模式
+
+
+
+
+
+
+
+![eberhard grossgasteiger](https://images.unsplash.com/photo-1574270981993-f1df213562b3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80 "eberhard grossgasteiger")End
