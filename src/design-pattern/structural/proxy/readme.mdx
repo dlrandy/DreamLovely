@@ -1,0 +1,61 @@
+# 设计模式之Proxy模式
+
+**Proxy 模式属于结构设计模式**
+
+结构化设计模式是使用新对象(包装对象)来创建新功能
+
+![markdown](https://images.unsplash.com/photo-1573554394544-930a4cf6fc66?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1352&q=80 "
+Raquel García")
+
+Proxy是提供某原始对象的替代品。Proxy控制着对原对象的访问，可以在访问到原对象
+之前或者之后做一些操作
+
+> Proxy类和原始的service对象具有同样的interface
+
+### 生活中的对比
+1.支付宝和微信付款都是可以用来付款的，可以理解为都是钱的代理。
+
+
+
+###Proxy模式结构
+1.Service interface 声明service的接口。Proxy必须遵循这个interface
+来把自己伪装成service对象
+2.Service类提供了业务逻辑
+3.Proxy 引用着service对象
+4.client使用service和Proxy
+
+## 什么时候使用Proxy模式？
+1.懒初始化。在有一个特别耗费系统资源的service需要一直启动，
+虽然只是偶尔才使用。访问控制，只有有权限的用户才能使用。
+2.远程service的本地执行。比如记录请求的记录。
+3.缓存请求结果
+
+###如何实现proxy模式
+1. 如果没有预设service interface，就创建一个使得proxy和class可以
+互换。如果不能提取出interface，就让proxy作为service子类
+2.创建proxy类，引用service对象
+3.在proxy里实现需要的方法，并代理工作到service
+4.提供一个creation方法，以至于client使用的是proxy还是real Service
+5.考虑实现service的懒初始化
+
+
+##优点
+1. 控制service对象的访问
+2.管理service对象的声明周期
+
+
+##缺点
+1.代码变得复杂了，因为引入了过多的类
+2.响应被延迟了
+
+
+###和其他模式的关系
+1.适配器是给包装对象提供不同的interface；proxy是提供相同的接口；
+Decorator是强化接口
+2.facade和proxy相似，都缓存复杂对象，以及自身初始化
+
+
+
+
+
+![eberhard grossgasteiger](https://images.unsplash.com/photo-1574270981993-f1df213562b3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80 "eberhard grossgasteiger")End
