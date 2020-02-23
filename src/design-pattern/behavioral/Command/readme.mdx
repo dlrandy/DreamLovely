@@ -1,0 +1,76 @@
+# 设计模式之命令模式(Command, Action, Transaction)
+
+**命令模式属于行为设计模式**
+
+将请求变成独立的对象，包含所有请求的信息。这种转换会对于不同的请求
+参数化不同的方法，延迟或者入队请求的执行，并支持可撤销的操作
+
+![markdown](https://images.unsplash.com/photo-1569365788898-f96aa58c27eb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+Abigail Mangum")
+
+###工作原理
+好的设计讲究关注分离。Command建议GUI不该直接发送request
+。应该抽取请求信息的详情(被调用的对象，方法名和参数列表)到
+独立的Command类里，command里有触发该请求的方法。
+
+###现实中的类比
+餐厅点餐，你点了一份牛排--》服务员拿到**餐单**--》厨师看到餐单下厨
+
+
+
+### Command模式的结构
+1.Sender(invoker)负责初始化请求，这个类有一个field存储
+  command对象。sender触发command，注意sender不负责
+  创建command对象，sender通过构造器来获得的
+2.Command接口声明执行command的方法
+3.Concrete Commands 实现不同的requests，command本身
+不处理请求，而是传递到业务逻辑层。执行方法的参数可以为command
+类的域。
+4.Receiver 包含业务逻辑，command只处理将request传递给Receiver
+的细节，Receiver做实际的逻辑
+5. Client 创建和配置实体Command对象，CLient必须传递所有的request
+的参数
+
+##什么时候使用Command模式？
+- 在想要对操作参数化对象的时候，Command模式将特定的方法调用变成独立的对象
+- 在想要队列化操作，安排操作的执行或者远程执行操作
+- 需要实现可回退的操作的时候，但是问题是1.不好保存状态2，耗费内存。所以
+  一般会转向备忘录模式。
+
+## 如何实现command模式？
+1.声明带有单一执行方法的Command interface
+2.开始抽离请求到实体command 类。每个类实现command接口，且必须有一组fields
+存储request参数和receiver。且必须在构造器里进行初始化
+3.识别作为sender的class，添加fields存储这些command类。sender只通过command
+接口和command通信。sender通常自身不创建command对象，而是从client获得
+4. 改变sender，使得它们执行command而不是直接向receiver发送请求
+5.client应该以下面的顺序初始化对象：
+  1. 创建receivers
+  2. 创建commands，需要的话可以将command和receiver进行关联
+  3. 创建senders，将其和特定的commands关联
+
+
+##优点
+1.  单一职责，调用操作的类和执行操作的类解耦
+2.  开闭原则，引入新的command不会破坏已经存在的code
+3.  可以实现撤销和重做
+4. 可以实现操作的延迟执行
+5. 可以将一组简单的command组合成一个复杂的命令
+
+
+##缺点
+因为在sender和receive之间引入了中间层代码变得复杂了
+
+### 和其他模式的关系
+-可以使用Command和Memento一起实现撤销，commands负责
+执行不同的操作，memento在命令执行之前保存对象的state。
+-Prototype有助于存储命令的copy到history里
+
+
+
+
+
+
+
+
+![eberhard grossgasteiger](https://images.unsplash.com/photo-1571217668979-f46db8864f75?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80 "ristina Gottardi")End
