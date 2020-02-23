@@ -1,0 +1,86 @@
+# 设计模式之责任链模式
+
+**责任链模式属于行为设计模式**
+
+沿着处理句柄链传递requests，一旦接收到了request，每一个
+句柄自己决定是否处理请求或者将其传递给下一个句柄
+
+![markdown](https://images.unsplash.com/photo-1569365788898-f96aa58c27eb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+Abigail Mangum")
+
+###工作原理
+将特定的行为转换为叫做handler的独立对象。每一个handler
+都会引用下一个handler。除了处理request之外，并将request
+传递给下一个handler。直至所有的handler都能处理到这个request
+或者中间环节某个handler将其传递终止。
+> 所有的handlerclass实现同一个interface很重要。每一个实体的handler
+应该只关心接下来有execute(假设)方法的handler。这样就可以在运行时
+组合chains。可以思考一下dom事件。
+
+###现实中的类比
+比如给网络运行商客服打电话，它会先给你指示-》机器人解决方法-》转人工
+
+
+### CoR模式的结构
+1.**handler**声明所有实体handler通用的接口，它可以只包含处理request
+的方法，也可以有设置下一个handler的方法
+2.**base handler**可选类，可以放些所有handler通用的模板代码。
+通常定义一个field引用下一个handler
+3.**Concrete handler** 包含处理请求的实际代码
+ > handlers通常是独立的immutable的，只通过constructor接收需要的数据
+4.**Client**可以根据app的逻辑一次或者动态的组合handlers
+
+
+##什么时候使用CoR模式？
+- 在App期望以不同的方式处理不同的requests的时候，
+且实现不能知道准确的请求类型和请求序列。
+  > 这模式将几个handlers连成一个链，一旦接收到请求
+  就问每一个handler是否可以处理该请求，这使得
+  每一个handler都有机会处理这个请求
+- 以特定的顺序执行几个handler的时候
+- 当一组handler和它们的顺序需要在runtime的时候改变的
+  > 可以在handler类里提供一个引用handler域的的setters，
+  动态的插入移除和排序handlers
+
+
+## 如何实现状态模式？
+1. 声明handler 接口，描述处理请求的方法签名(handle)
+  > 将请求转换为对象，作为参数传给handle 方法
+2.为了移除实体handler的模板代码，可以创建一个抽象的
+base handler 类
+  > 该类应该有一个filed存储下一个handler的引用。如果
+  需要在运行时修改chains，需要定义setters修改引用的field，
+  也可以实现handler的默认行为
+3. 创建实体handler子类实现handle方法，每一个handle
+都应该做两个决定:1.是否处理请求2.是否将其传递
+4. client组合chains或者从其他对象接受chains。后者必须
+实现工厂类来根据配置和环境构建chains
+5.client可以触发任何的chain。请求的传递应该直到handler
+拒绝传递或者已经到达chain的末端
+6.因为chain的动态特性，client应该处理一下细节：
+  1. chain可以由单一的link组成
+  2. 一些请求不能到达末端
+  3. 一些可能到达默认但是不被处理
+
+##优点
+1.  单一职责，调用操作的类和执行操作的类解耦
+2.  开闭原则，引入新的handler不会破坏已经存在的code
+3.  可以控制请求处理的顺序
+
+##缺点
+某些请求可能最终不会被处理
+
+### 和其他模式的关系
+CoR，Command， Mediator和Observer都是解决
+连接请求的sender和receiver的不同方式：
+- CoR沿着动态的receiver chain顺序传递请求
+- Command 在sender和receiver之间建立间接联系
+- Mediator，移除sender和receiver之直接联系，
+  强迫间接的通过mediator对象通信
+- Observer是让receiver动态的订阅和取消接收请求
+
+
+
+
+
+![eberhard grossgasteiger](https://images.unsplash.com/photo-1571217668979-f46db8864f75?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80 "ristina Gottardi")End
