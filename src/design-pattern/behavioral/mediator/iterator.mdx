@@ -1,0 +1,63 @@
+# 设计模式之mediator模式
+
+**mediator模式属于行为设计模式**
+该模式减少对象之间的混乱依赖，限制对象之间的直接通信，而是强迫对象之间
+通过mediator进行通信
+
+
+![markdown](https://images.unsplash.com/photo-1569365788898-f96aa58c27eb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+Abigail Mangum")
+
+###mediator的思想
+抽离集合的遍历行为到一个叫做iterator的独立对象里，除了
+实现遍历算法，还要封装遍历细节。iterator提供一个主要的
+获取数据的方法。所有的迭代器必须实现同一个接口。因为
+有正确的iterator代码才会兼容任何的集合类型和遍历算法。
+
+**现实中的列子**
+比如飞机场众多飞机的起飞与停降；交通警察
+
+### mediator模式的结构
+1. Components是不同的业务逻辑类，每一个组件都会引用mediator，
+组件不会意识到mediator的实体类，而是引用的interface
+2. Mediator接口声明和components通信的方法，component可以作为
+方法的参数传递
+3. Concrete Mediator 封装不同组件之间的联系。通常会引用所有
+要管理的组件，有时也会处理组件的生命周期。
+4.components不能意识到其他的components。如果一个重要的事情发生
+在组件里，它只能通知mediator。mediator接收到通知，它会识别出哪些组件
+需要被触发
+
+
+##什么时候使用Mediator模式？
+1. 某些类因为和别的类耦合的太严重而不能改变的时候
+2.组件之间因为彼此依赖不能在不同的app里复用
+3. 当发现创建了大量的组件子类只是在不同的context下复用了
+一些基本的行为的时候
+
+##如何实现
+1.识别一组紧密耦合的但是独立会更受益的class
+2.声明mediator接口，描述mediator和不同组件的通信协议，
+大多数情况下，一个接收组件通知的接口就够了
+3.实现实体mediator类，引用需要管理的类
+4.可以进一步让mediator负责组件对象的创建和销毁
+5.组件应该储存mediator的引用，关联可以建立在组件的
+构造器里，mediator作为参数传递
+6.改变组件代码，调用mediator的通知而不是其他组件
+
+
+##优点
+1.  单一职责，将组件之间的通信抽离到单独的位置，易于维护理解
+2.  开闭原则，引入新的mediator不需要修改存在的组件
+3.  减少了对象之间的耦合
+4. 单独的组件更易于复用
+
+
+##缺点
+1.mediator易进化成God Object（就是一个对象知道的太多或者做的太多）
+
+
+
+
+
+![eberhard grossgasteiger](https://images.unsplash.com/photo-1571217668979-f46db8864f75?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80 "ristina Gottardi")End
