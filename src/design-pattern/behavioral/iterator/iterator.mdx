@@ -1,0 +1,70 @@
+# 设计模式之iterator模式
+
+**iterator模式属于行为设计模式**
+在不暴露底层描述的情况下遍历元素集合。
+
+
+![markdown](https://images.unsplash.com/photo-1569365788898-f96aa58c27eb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+Abigail Mangum")
+
+###迭代器的思想
+抽离集合的遍历行为到一个叫做iterator的独立对象里，除了
+实现遍历算法，还要封装遍历细节。iterator提供一个主要的
+获取数据的方法。所有的迭代器必须实现同一个接口。因为
+有正确的iterator代码才会兼容任何的集合类型和遍历算法。
+
+**现实中的列子**
+比如游罗马
+
+### iterator模式的结构
+1. iterator 接口声明遍历集合需要的操作：获取下一个元素，获取当前位置，
+重新迭代等等
+2. Concrete iterators实现遍历集合的算法。迭代器应该追踪遍历的过程，
+这样允许几个迭代器可以独立的遍历同一个集合
+3. Collection 接口声明一个或者几个兼容集合的获取迭代器的方法。注意
+方法的返回类型必须是iterator接口，以至于实体集合可以返回不同的iterator
+4. Concrete Collection 返回一个特定的实体迭代器类的实例，以及集合会有
+自己的细节
+5. client通过集合和接口使用collections和iterators。client通常不会创建
+iterators而是从集合里获取，当然 client可以定义自己的iterator
+
+
+##什么时候使用iterator模式？
+1. 当集合有复杂的数据结构，但是出于方便，安全，或者
+向client隐藏复杂性的时候
+  > iterator封装了使用复杂数据结构的详细细节，提供
+  给client几个方法访问集合元素。给client提供方便，同时
+  又不用担心client对集合进行破坏
+2. 减少app里重复的遍历代码
+3. 代码需要遍历不同的数据结构或者事先不知道结构的类型
+  > 提供集合和迭代器的通用接口
+
+##如何实现
+1. 声明Iterator接口，至少有一个从集合里获取下一个元素
+的方法，为了方便可能有其他的方法，比如获取前一个元素，
+追踪当前位置等
+2. 声明collection接口，要有一个方法获得iterator
+3. 实现实体iterator类，可以通过构造器建立iterator与
+collection之间的关系
+4.实现实体collection类，给client提供快捷的创建iterator
+的方式，将自身传给iterator建立联系
+5.client用iterator替换掉所有的集合变量代码
+
+
+
+
+##优点
+1.  单一职责，client的代码不会和集合的算法耦合
+2.  开闭原则，引入新的集合和iterator不会破坏已经存在的code
+3.  可以多种迭代器平行迭代同一个集合
+4. 可以控制迭代的执行
+
+##缺点
+1.对于简单的遍历，就有些过分了
+2.效率比特殊的集合操作慢
+
+
+
+
+
+![eberhard grossgasteiger](https://images.unsplash.com/photo-1571217668979-f46db8864f75?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80 "ristina Gottardi")End
