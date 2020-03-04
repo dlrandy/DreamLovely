@@ -1,0 +1,123 @@
+# 设计模式之memento模式
+
+**memento模式属于行为设计模式**
+也叫快照模式，在不展示实现细节的情况下，存储和恢复对象之前的状态
+
+
+![markdown](https://images.unsplash.com/photo-1569365788898-f96aa58c27eb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80"
+Abigail Mangum")
+
+###思考一个问题
+文本编辑器如何撤销client对文本的操作？
+1.直接的方法是每个action之前，app记录所有的状态并保存起来，
+稍后撤销的时候，app从history里获取最新的保存状态恢复所有
+对象的状态，但是这个方式的问题？
+  > 实现方式？
+    需要遍历对象的所有域，将值拷贝存储起来。但是并不是所有
+    的域都是公有的，私有的数据在外部是无法访问到的。（但是
+    js没有私有域）。
+  > 那么有人说私有和公有有啥区别？
+    公有不安全易被破坏，私有不能拷贝
+  > 备份要包含哪些数据？
+2.涉及到存储和恢复的code工作一般会涉及到两个极端的问题？
+  >1.类暴露所有的内部数据，也就是所有的域公有, 数据易碎，不安全
+  >2.限制域的访问，有些数据私有，那么创建快照不太可能了
+
+###问题的原因
+上述问题的原因在于某些对象为了搜集操作需要的数据，侵犯了另外对象的
+私有空间，而不是让这些对象自己执行实际操作。也就是A做了B本该做的事情
+
+###问题的解决方案
+Memento模式将创建snapshot的工作交给了state的拥有者originator。
+对象状态的拷贝放在memento的特殊对象里。momento的内容只能是被
+创建它的originator访问。其他对象可以通过接口访问一些元数据时间名字等。
+mementos通常存储在叫做caretakers的对象里，它只通过有限的接口访问
+memento不会篡改memento数据
+
+**现实中的列子**
+富文本编辑器
+
+### mediator模式的结构
+- 基于内置类的实现
+  1. Originator类产生自己的快照，以及在需要的时候从快照中恢复
+  2. Memento是一个value对象，作为originator状态的快照，
+    通常只通过构造器向其传递数据
+  3. Caretaker  不仅知道什么时候为什么捕获originator的state，
+    还知道state什么时候恢复。通过存储mementos栈来追踪originator
+    的历史。在originator回退的时候，caretaker获取最新的Memento
+    传给originator的恢复方法
+  4. 在这个实现中，Memento类内置在Originator类里。这让Originator
+    可以访问Memento的域和方法，虽然这些是私有的。
+- 基于媒介接口(intermediate interface)实现
+  1. 在没有内置类的情况下，通过建立约定--Caretaker只能通过显示声明
+    的intermediate interface使用Memento-- 来限制对Memento域
+    的访问。intermediate interface只声明和元数据有关的方法
+  2. Originator可以直接使用Memento对象，访问Memento里的方法和域，
+    但是需要Memento的所有成员public
+- 基于更严格的封装
+  1.这种实现允许有多个类型的Originators和Mementos。每一个Originator
+    使用对应的Memento类。Originator和Memento都不暴露state给任何人
+  2. Caretakers 显示的被限制了改变Memento里的state。Caretaker独立于
+    originator ,因为恢复的方法定义在Memento
+  3. 每个Memento和产生它的Originator相关。Originator传递自身给Memento
+    的构造器和它的state，Originator提供setters来设置memento恢复state。
+
+代码示例使用的是结合memento和command模式，command对象作为caretakers，
+它在执行和commands相关的操作的时候获取editor的memento。在用户试着撤销
+最近的command的时候，editor使用存储在command里的memento回退到之前的
+状态。memento不声明任何的public域，getters和setters，不可改变。memento
+恢复相关的editor的状态只需要将数据传递给editor的setters。因为memento
+和特定的editor数据相关，可以使用集中的undo stack支持多个独立的editor
+窗口。
+
+##什么时候使用Mediator模式？
+1.在需要产生对象状态的快照能够恢复之前的对象状态
+  memento可以完全拷贝对象的状态，包括私有域并和对象分开存储。
+  除了撤销，也多用于处理transaction(比如操作出错回滚)
+2. 在直接访问对象的fields/getters/setters破坏封装的时候
+  memento让对象自身创建状态的快照。其他对象不能读取，这就使得
+  原始对象的数据很安全
+
+##如何实现
+1.决定出哪个是Originator。要知道app使用这个类型的中心对象
+还是多个小的对象
+2. 创建Memento类，声明一组域来应射Originator类里的域
+3. Memento类是immutable的，Memento只通过constructor
+  接收数据一次，不应该有setters方法
+4. 如果支持nested类支持，就把Memento内置在Originator里；
+否则的话从Memento类里抽离出一个空白接口，让其他对象通过
+该接口引用Memento。接口可以有一些元数据操作，但是不嫩暴露
+Originator的状态。
+5.加一个产生Memento的方法到Originator类，Originator通过
+Memento构造器的参数将状态传给Memento，该方法返回的类型应该‘
+是第四步中的接口。产生Memento的方法应该直接使用Memento
+6.加一个恢复的方法给Originator。它接收Memento作为参数。如果
+之前步骤抽离了接口，那么接口该作为参数类型。这种情况需要类型转换将
+对象转化为mediator类，因为Originator需要完全访问这个对象
+7.caretaker，不管它是代表command对象，history还是别的都应该
+知道什么时候请求Originator的Memento以及如何什么时候用特定的
+memento恢复Originator
+8.caretaker和Originator的关联移入到memento类。在这中情况下
+memento必须和创建它的Originator关联起来。恢复的方法也要移到
+memento类。但是这要memento内置到Originator里或者Originator
+提供了覆盖状态的setters才有意义
+
+
+##优点
+1.  可以在不破坏封装的情况下，产生对象状态的快照
+2. 通过caretaker维护Originator的状态历史，简化了Originator的code
+
+
+
+##缺点
+1.app需要较大的内存
+2.caretaker需要追踪Originator的生命周期用于销毁过时的memento
+3.大多数动态语言不保证memento里的状态不被改变
+
+### 和其他模式的关系
+- Command 和Memento一起可以实现undo。command负责执行不同的操作，
+  而Memento在command执行之前保存对象的状态
+- memento和iterator一起可以捕获迭代状态，需要的话可以回滚
+- Prototype是Memento的替代，
+
+![eberhard grossgasteiger](https://images.unsplash.com/photo-1571217668979-f46db8864f75?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80 "ristina Gottardi")End
