@@ -1,0 +1,67 @@
+# 设计模式之observer模式
+
+**observer模式属于行为模式**
+
+行为设计模式是关于对象/class之间的交互方式。
+
+![markdown](https://images.unsplash.com/photo-1569261995036-70d0dd50be24?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1789&q=80 "
+Kevin Mueller")
+
+### 什么是Observer？
+定义subscription机制来通知多个对象它们感兴趣的事件
+
+
+### observer是如何工作的？
+有state被感兴趣的对象叫做Subject，但是要通知其他对象的state变化，那就
+叫它publisher，所有想追踪publisher状态变化的叫做subscriber
+
+
+###现实中的类比
+订阅报纸周刊
+
+###结构
+1.Publisher 发送events给感兴趣的其他对象。包含一个subscription
+架构，允许新的subscriber加入，已有的离开列表。当事件发生的时候，publisher
+遍历注册列表调用声明在subscriber接口上的notification方法
+2.Subscriber接口声明notification接口，通常包含一个update方法
+有几个参数由publisher传递过来
+3.Concrete Subscriber 执行一些动作响应publisher的通知
+4.Client独立创建publisher和Subscriber，注册Subscriber到
+publisher的update
+
+
+##如何实现
+1.审查业务逻辑，核心的功能作为publisher，其他的作为subscriber
+2.声明subscriber接口，至少声明一个update方法
+3.声明publisher接口，描述一组方法来添加subscriber到list里以及移除，
+publisher只能通过subscriber接口使用subscriber
+4.决定哪里存放subscription 列表和实现subscription方法
+5.创建实体的publisher类，内部发生重要的事件的时候要通知所有的subscriber
+6.在实体subscriber里实现update方法来响应notification
+7.client需要创建所有的subscriber并把它们注册到正确的publisher
+
+##什么时候需要使用observer模式？
+1. 当一个对象状态改变需要改变其他对象的时候，而且其他对象事先并不确定
+或者是动态的
+2. app里的一些对象观测其他对象，但是只是特定时间内或者几个特殊的情况下
+
+##优点
+1. 开闭原则，在不改变publishercode情况下，可以引入新的subscriber类。
+反之也一样
+2.可以运行时建立两者的关系
+
+##缺点
+1. 无序的通知subscriber，
+
+##和其他模式的关系
+1.CoR ，command，Mediator和observer处理的是关联请求的sender和receiver
+的不同方式的
+  1.CoR顺序的传递request到每一个receiver，直到其中的一个处理它
+  2.Command是在sender和receiver之间建立单向关系‘
+  3.Mediator是移除sender和receiver之间的直接联系，强迫他们通过mediator
+    进行联系
+  4.observer让receiver动态的订阅和退订接收request
+2. Mediator VS Observer
+
+
+![eberhard grossgasteiger](https://images.unsplash.com/photo-1569196769169-148d853ee706?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=564&q=80 "eberhard grossgasteiger")End
